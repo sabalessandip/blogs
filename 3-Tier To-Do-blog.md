@@ -1,12 +1,12 @@
 # Building and Deploying a 3-Tier To-Do List Web App Using Flutter, Spring Boot, and Docker
 
 ## Introduction
-Exploring backend technologies and cloud deployment has been an exciting journey. To bridge my knowledge to full-stack of web applications, I embarked on creating a 3-tier To-Do List/Task manager web application using ***Flutter for the frontend***, ***Spring Boot for the backend***, and ***MySQL as the database***. Additionally, I leveraged Docker to containerize the application and Docker Compose to manage the deployment of the entire stack.
+Exploring backend technologies and cloud deployment has been an exciting journey. To bridge my knowledge to full-stack of web applications, I embarked on creating a 3-tier To-Do List/Task manager web application using **Flutter for the frontend**, **Spring Boot for the backend**, and **MySQL as the database**. Additionally, I leveraged Docker to containerize the application and Docker Compose to manage the deployment of the entire stack.
 
 In this blog, I'll walk you through the process, from setting up the development environment to deploying the application using Docker Compose.
 
 ## GitHub Repository
-You can find the complete source code for this project on [GitHub](https://github.com/sabalessandip/blogs/blob/main/3-Tier%20To-Do-blog.md).
+You can find the complete source code for this project on [GitHub](https://github.com/sabalessandip/to_do).
 
 ## Prerequisites
 Before diving into the project, ensure you have the following installed:
@@ -26,8 +26,8 @@ The To-Do List application is divided into three tiers:
 ## Setting Up the Frontend with Flutter Web
 ### Step 1: Create a New Flutter Project
 ```sh
-flutter create todo_flutter_web
-cd todo_flutter_web
+flutter create frontend
+cd frontend
 ```
 
 ### Step 2: Enable Flutter Web
@@ -493,7 +493,7 @@ Instead of installing a local MySQL instance, we will create a Docker container 
 docker run --name local-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=<rootpassword> mysql
 
 ### Step 2: Create database to store tasks
-Create a database ```todo_list```, a user ```todo_user``` with password ```user@123``` to stores the tasks by creating a terminal session to local-mysql container,
+Create a database ```todo_list```, a user ```todo_user``` with password ```user@123``` to store the tasks by creating a terminal session to local-mysql container,
 ```sql
 docker exec -it local-mysql /bin/bash
 ```
@@ -598,9 +598,10 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 
 ### Step 3: Backend - Create Dockerfile for database as following,
 Earliyer, we manually executed commands to create database, user and table for storing task on mysql instance we created from official docker image. 
-When a mysql container is started for the first time, it executes files with extensions ```.sh```, ```.sql``` and ```.sql.gz``` that are found in ```/docker-entrypoint-initdb.d```. directory. So, to automate the process, create ```create_database.sq``` file and ```Dockerfile``` in database directory as following,
+When a mysql container is started for the first time, it executes files with extensions ```.sh```, ```.sql``` and ```.sql.gz``` that are found in ```/docker-entrypoint-initdb.d```. directory. So, to automate the process, create ```create_database.sql``` file and ```Dockerfile``` in database directory as following,
 
 ```sql
+# create_database.sql
 -- Create the database
 CREATE DATABASE todo_list;
 
@@ -625,6 +626,7 @@ CREATE TABLE tasks (
 ```
 
 ```Dockerfile
+#Dockerfile
 # Set base image
 FROM mysql:latest
 
