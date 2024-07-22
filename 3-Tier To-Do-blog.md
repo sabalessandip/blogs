@@ -6,7 +6,7 @@ Exploring backend technologies and cloud deployment has been an exciting journey
 In this blog, I'll walk you through the process, from setting up the development environment to deploying the application using Docker Compose.
 
 ## GitHub Repository
-You can find the complete source code for this project on [GitHub](git hub link).
+You can find the complete source code for this project on [GitHub](https://github.com/sabalessandip/blogs/blob/main/3-Tier%20To-Do-blog.md).
 
 ## Prerequisites
 Before diving into the project, ensure you have the following installed:
@@ -19,9 +19,9 @@ Before diving into the project, ensure you have the following installed:
 ## Project Overview
 The To-Do List application is divided into three tiers:
 
-***Frontend***: Built with Flutter Web.
-***Backend***: Developed using Spring Boot to handle API requests.
-***Database***: MySQL to store task data.
+**Frontend**: Built with Flutter Web.
+**Backend**: Developed using Spring Boot to handle API requests.
+**Database**: MySQL to store task data.
 
 ## Setting Up the Frontend with Flutter Web
 ### Step 1: Create a New Flutter Project
@@ -48,7 +48,7 @@ dependencies:
 
 ### Step 4: Create the Flutter Web UI
 
-Create a simple UI to add and display tasks:
+Create a simple UI to add and display tasks and model as service classes to make api calls as following,
 
 ```dart
 # todo_page.dart
@@ -196,7 +196,7 @@ class _ToDoHomePageState extends State<ToDoHomePage> {
   }
 }
 ```
-and the model, service files as below,
+
 ```dart
 # api_service.dart
 import 'dart:convert';
@@ -315,10 +315,10 @@ class TaskDetail {
 ### Step 1: Initialize the Spring Boot Project
 Use [Spring Initializr](https://start.spring.io) to create a new project with the following dependencies:
 
-Spring Web
-Spring Data JPA
-MySQL Driver
-Lombok
+**Spring Web**
+**Spring Data JPA**
+**MySQL Driver**
+**Lombok**
 
 ### Step 2: Create the Task Entity
 ```java
@@ -367,7 +367,7 @@ public class Task {
 }
 ```
 
-Step 3: Create the Task Repository
+### Step 3: Create the Task Repository
 ```java
 # com.demo.todoapp.repository.TaskRepository
 @Repository
@@ -375,7 +375,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 }
 ```
 
-Step 4: Create the Task Service
+### Step 4: Create the Task Service
 ```java
 # com.demo.todoapp.service.impl.TaskServiceImpl;
 @Service
@@ -434,7 +434,7 @@ public class TaskServiceImpl implements TaskService {
 }
 ```
 
-Step 5: Create the Task Controller
+### Step 5: Create the Task Controller
 ```java
 # com.demo.todoapp.controller.TaskController
 @RestController
@@ -465,11 +465,10 @@ public class TaskController {
 }
 ```
 
-Step 7: Configure Spring Profiles and MySQL in application.properties
+### Step 6: Configure Spring Profiles and MySQL in application.properties
 
 Create application.properties files as following:
 ```java
-#
 # application-deploy.properties
 spring.application.name=ToDoApp
 spring.jpa.hibernate.ddl-auto=update
@@ -493,12 +492,12 @@ spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
 ```
 
 ## Setting Up the Database with MySQL
-Instead of installing a local MySQL instance, we can create a Docker image for MySQL that sets up the required database for the To-Do application.
+Instead of installing a local MySQL instance, we will create a Docker container from official MySQL image to set up the required database for the To-Do application.
 
 ### Step 1: Create a mysql container
 docker run --name local-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=<rootpassword> mysql
 
-### Step 1: Create database to store tasks
+### Step 2: Create database to store tasks
 Create a database ```todo_list```, a user ```todo_user``` with password ```user@123``` to stores the tasks by creating a terminal session to local-mysql container,
 ```sql
 docker exec -it local-mysql /bin/bash
@@ -509,19 +508,19 @@ login to mysql with root user (provide the rootpassword you have choosen in step
 mysql -u root -p 
 ```
 
-and executing the commands from ```create_database.sql``` file from ```database``` directory from final project. Please find the sql commands below in ***Containerizing with Docker section***.
+and execute the commands from ```create_database.sql``` file from ```database``` directory from final project or refer the ***Step 3: Backend - Create Dockerfile for database*** from ***Containerizing with Docker section*** below.
 
-Test the 3-Tier App Manually
+## Test the 3-Tier App Manually
 Before deploying the application using Docker Compose, we can manually test the setup.
 
-***Step 1:*** Database - Ensure the database is already running as a Docker container using the commands from the previous section.
+### Step 1: Database - Ensure the database is already running as a Docker container using the commands from the previous section.
 
-***Step 2:*** Backend - Run the backend Spring Boot project by setting the Spring profile to local.
+### Step 2: Backend - Run the backend Spring Boot project by setting the Spring profile to local.
 ```sh
 java -jar build/libs/application.jar --spring.profiles.active=local
 ```
 
-***Step 3:*** Frontend - Modify the base URL in api_service.dart and run the Flutter project.
+### Step 3: Frontend - Modify the base URL in api_service.dart and run the Flutter project.
 ```dart
 static const String baseUrl = 'http://localhost:8080';
 ```
@@ -539,13 +538,13 @@ static const String baseUrl = 'http://localhost:8080';
 ## Containerizing with Docker
 I have packaged the frontend and backend on my machine and created the docker images with the built packages to simulate real-world scenarios. However, we could write a Dockerfile to build and package during image creation using multi-stage Docker builds. So, Before creating frontend and backend images, package them using the following commands.
 
-***Frontend:***
+**Frontend:**
 ```sh
 flutter config --enable-web
 flutter build web
 ```
 
-***Backend:***
+**Backend:**
 
 ```sh
 ./gradlew clean build
