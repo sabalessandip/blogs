@@ -313,12 +313,7 @@ class TaskDetail {
 
 ## Setting Up the Backend with Spring Boot
 ### Step 1: Initialize the Spring Boot Project
-Use [Spring Initializr](https://start.spring.io) to create a new project with the following dependencies:
-
-**Spring Web**
-**Spring Data JPA**
-**MySQL Driver**
-**Lombok**
+Use [Spring Initializr](https://start.spring.io) to create a new project with **Spring Web**, **Spring Data JPA**, **MySQL Driver**, **Lombok** dependencies.
 
 ### Step 2: Create the Task Entity
 ```java
@@ -508,7 +503,7 @@ login to mysql with root user (provide the rootpassword you have choosen in step
 mysql -u root -p 
 ```
 
-and execute the commands from ```create_database.sql``` file from ```database``` directory from final project or refer the ***Step 3: Backend - Create Dockerfile for database*** from ***Containerizing with Docker section*** below.
+and execute the commands from ```create_database.sql``` file from ```database``` directory from final project or refer the [Step 3: Backend - Create Dockerfile for database from Containerizing with Docker section](https://github.com/sabalessandip/blogs/blob/main/3-Tier%20To-Do-blog.md#step-3-backend---create-dockerfile-for-database-as-following) below.
 
 ## Test the 3-Tier App Manually
 Before deploying the application using Docker Compose, we can manually test the setup.
