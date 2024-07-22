@@ -48,7 +48,7 @@ dependencies:
 
 ### Step 4: Create the Flutter Web UI
 
-Create a simple UI to add and display tasks and model as service classes to make api calls as following,
+Create a simple UI to add and display tasks and model and service classes to make api calls as following,
 
 ```dart
 # todo_page.dart
