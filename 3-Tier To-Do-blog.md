@@ -597,7 +597,7 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
 ### Step 3: Backend - Create Dockerfile for database as following,
-Earliyer, we manually executed commands to create database, user and table for storing task on mysql instance we created from official docker image. 
+Earlier, we manually executed commands to create database, user and table for storing task on mysql instance we created from official docker image. 
 When a mysql container is started for the first time, it executes files with extensions ```.sh```, ```.sql``` and ```.sql.gz``` that are found in ```/docker-entrypoint-initdb.d```. directory. So, to automate the process, create ```create_database.sql``` file and ```Dockerfile``` in database directory as following,
 
 ```sql

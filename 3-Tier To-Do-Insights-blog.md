@@ -29,6 +29,7 @@ I chose Flutter for the frontend to create a simple yet functional UI for task m
 flutter config --enable-web.
 ```
 **HTTP Requests:** Used the http package to communicate with the backend, making asynchronous API calls to fetch and manipulate task data.
+
 **Environment Variables:** [dart-define](https://dartcode.org/docs/using-dart-define-in-flutter/) can be used to provide environment variables to Flutter Web project. I have not used it in this project.
 
 ## Backend with Spring Boot
@@ -46,8 +47,11 @@ spring.jpa.hibernate.ddl-auto=none
 ### Key Insights:
 
 **Entity Design:** Created a Task entity representing the task data model, annotated with JPA for ORM (Object Relational Mapping).
+
 **Service Layer:** Implemented a service layer to encapsulate business logic, promoting a clean separation of concerns.
+
 **Controller Layer:** Developed REST controllers to expose APIs for task management.
+
 **Profiles:** Utilized Spring Profiles to manage different configurations, ensuring smooth transitions between development and production environments.
 
 ## Database with MySQL
@@ -58,18 +62,18 @@ ran mysql container,
 docker run --name local-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=<rootpassword> mysql
 ```
 
-opened a terminal session to the MySQL container:
+opened a terminal session to the MySQL container,
 
 ```sh
 docker exec -it local-mysql /bin/bash
 ```
 
-Logged in to MySQL with the root user:
+Logged in to MySQL with the root user,
 ```sh
 mysql -u root -p
 ```
 
-Then executed the following SQL commands one by one, which later translated into a SQL script for automation in container initialization:
+Then executed the following SQL commands one by one. When a mysql container is started for the first time, it executes files with extensions ```.sh```, ```.sql``` and ```.sql.gz``` that are found in ```/docker-entrypoint-initdb.d```. directory. So, to automate the process, created a sql script with these commands.
 
 ```sql
 # Create the database
@@ -101,10 +105,12 @@ Before deploying the application using Docker Compose, I manually tested it to e
 
 ### Steps Taken:
 **Database:** Ensured the MySQL container was running and accessible, and the required database, user, and table were created.
+
 **Backend:** Launched the Spring Boot application with the local profile to connect to the MySQL database.
 ```sh
 ./gradlew bootRun --args='--spring.profiles.active=local'
 ```
+
 **Frontend:** Configured the localhost backend URL as the base URL in the API service and ran the Flutter web project locally to interact with the backend.
 
 This also depicts the order in which the containers for respective layer should be created.
