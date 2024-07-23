@@ -25,10 +25,11 @@ I chose Flutter for the frontend to create a simple yet functional UI for task m
 ### Key Insights:
 
 **Configuration:** Use following command to enable web support in Flutter
+```sh
 flutter config --enable-web.
-State Management: Leveraged Flutter’s built-in state management to handle the state of tasks dynamically.
-HTTP Requests: Used the http package to communicate with the backend, making asynchronous API calls to fetch and manipulate task data.
-Environment Variables: [dart-define](https://dartcode.org/docs/using-dart-define-in-flutter/) can be used to provide environment variables to Flutter Web project. I have not used it in this project.
+```
+**HTTP Requests:** Used the http package to communicate with the backend, making asynchronous API calls to fetch and manipulate task data.
+**Environment Variables:** [dart-define](https://dartcode.org/docs/using-dart-define-in-flutter/) can be used to provide environment variables to Flutter Web project. I have not used it in this project.
 
 ## Backend with Spring Boot
 
