@@ -131,6 +131,15 @@ flutter build web
 ./gradlew clean build -Dspring.profiles.active=deploy
 ```
 
+### Dockerfiles
+
+**Frontend:** Used Nginx to serve the Flutter website. The packaged website from the '/build/web' directory is copied to the /usr/share/nginx/html directory, which is the default HTML directory inside the Nginx container.
+
+**Backend:** Created an environment variable to accept the database URL from Docker Compose and set the ***deploy Spring profile*** to use these environment variables in the code.
+
+**Database:** Copied the SQL script to the ```/docker-entrypoint-initdb.d``` directory inside the MySQL container to create the database prerequisites at container startup.
+
+
 ### Docker Compose File:
 By default Compose sets up a single [network](https://docs.docker.com/reference/cli/docker/network/create/) for your app. Each container for a service joins the default network and is both reachable by other containers on that network, and discoverable by the service's name. I have leveraged this default network to configure the services for the database, backend, and frontend in docker compose, ensuring they communicate seamlessly.
 
