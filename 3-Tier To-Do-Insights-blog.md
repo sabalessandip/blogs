@@ -15,7 +15,7 @@ The architecture of the To-Do List application is based on the three-tier design
 
 1. Frontend (Presentation Layer): Developed using Flutter Web to provide a dynamic and responsive user interface.
 2. Backend (Application Layer): Built with Spring Boot to handle business logic and API requests.
-3. Database (Data Layer): Utilized MySQL to store and manage task data.
+3. Database (Data Layer): Utilised MySQL to store and manage task data.
 
 ## Frontend with Flutter Web
 
@@ -37,7 +37,7 @@ flutter config --enable-web.
 ### Design and Development
 Spring Boot was selected for the backend due to its rapid development capabilities and ease of integration with other technologies. The backend is responsible for handling CRUD operations for tasks, exposed via RESTful APIs.
 
-By default, if a Spring Boot application contains Spring Data JPA, it will automatically attempt to create a database connection. However, this can cause issues if the database is not available when the application starts. I faced this issue while deploying with Docker Compose. To resolve it, I added health checks on the database and service health conditions on database dependency in the Docker Compose file. To continue without a database, Spring Boot can be configured to skip database initialization with the following properties:
+By default, if a Spring Boot application contains Spring Data JPA, it will automatically attempt to create a database connection. However, this can cause issues if the database is not available when the application starts. I faced this issue while deploying with Docker Compose. To resolve it, I added health checks on the database and service health conditions on database dependency in the Docker Compose file. To continue without a database, Spring Boot can be configured to skip database initialisation with the following properties:
 
 ```java
 spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
@@ -52,7 +52,7 @@ spring.jpa.hibernate.ddl-auto=none
 
 **Controller Layer:** Developed REST controllers to expose APIs for task management.
 
-**Profiles:** Utilized Spring Profiles to manage different configurations, ensuring smooth transitions between development and production environments.
+**Profiles:** Utilised Spring Profiles to manage different configurations, ensuring smooth transitions between development and production environments.
 
 ## Database with MySQL
 Instead of setting up a local MySQL instance, Docker was used to create a MySQL container. This approach simplified the setup process. The application needs a database ```todo_list```, a user ```todo_user``` with password ```user@123```, and a ```task``` table to store the tasks in the MySQL database. To create these,
@@ -139,7 +139,7 @@ By default Compose sets up a single [network](https://docs.docker.com/reference/
 docker-compose up -d
 ```
 
-**Build and start all services:**
+**Stop all services:**
 ```sh
 docker-compose down
 ```
