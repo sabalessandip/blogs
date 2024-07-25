@@ -1,10 +1,8 @@
 # Insights from Building and Deploying a 3-Tier To-Do List Web App Using Flutter, Spring Boot, and Docker
 ## Introduction
-Exploring backend technologies and cloud deployment has been an exciting journey. In this article, I will share the insights and lessons learned while building a 3-tier To-Do List web application. This project utilizes **Flutter for the frontend**, **Spring Boot for the backend**, **MySQL for the database**, and **Docker & Docker Compose orchestrating the deployment**. For those interested in the full code, you can find the complete project on [GitHub](https://github.com/sabalessandip/to_do).
+Exploring backend technologies and cloud deployment has been an exciting journey. In this article, I will share the insights and lessons learned while building a 3-tier To-Do List web application. This project utilizes **Flutter for the frontend**, **Spring Boot for the backend**, **MySQL for the database**, and **Docker & Docker Compose for orchestrating the deployment**. For those interested in the full code, you can find the complete project on [GitHub](https://github.com/sabalessandip/to_do).
 
 ## Tools I Used
-To build and deploy this application, the following tools were essential:
-
 - **Flutter SDK:** For developing the frontend.
 - **Java Development Kit (JDK) 21:** For running the Spring Boot application.
 - **Visual Studio Code:** As the integrated development environment (IDE).
@@ -15,29 +13,29 @@ The architecture of the To-Do List application is based on the three-tier design
 
 1. Frontend (Presentation Layer): Developed using Flutter Web to provide a dynamic and responsive user interface.
 2. Backend (Application Layer): Built with Spring Boot to handle business logic and API requests.
-3. Database (Data Layer): Utilised MySQL to store and manage task data.
+3. Database (Data Layer): Utilized MySQL to store and manage task data.
 
 ## Frontend with Flutter Web
 
 ### Design and Development
-I chose Flutter for the frontend to create a simple yet functional UI for task management as I had explored it earlier, understands it better than React, and wanted to build the frontend quickly to focus on other tiers. Flutter's declarative syntax and state management are relatively easy to understand, making the development process smoother.
+I have selected Flutter for the frontend to create a simple yet functional UI for task management as I had explored it earlier, understands it better than React, and wanted to build the frontend quickly to focus on other tiers. Flutter's declarative syntax and state management are relatively easy to understand, making the development process smoother.
 
 ### Key Insights:
 
-**Configuration:** Use following command to enable web support in Flutter
+**Configuration:** Used following command to enable web support in Flutter project,
 ```sh
 flutter config --enable-web.
 ```
 **HTTP Requests:** Used the http package to communicate with the backend, making asynchronous API calls to fetch and manipulate task data.
 
-**Environment Variables:** [dart-define](https://dartcode.org/docs/using-dart-define-in-flutter/) can be used to provide environment variables to Flutter Web project. I have not used it in this project.
+**Environment Variables:** The '[dart-define](https://dartcode.org/docs/using-dart-define-in-flutter/)' option can be utilized to supply environment variables to a Flutter Web project. However, I have not applied it in this project.
 
 ## Backend with Spring Boot
 
 ### Design and Development
 Spring Boot was selected for the backend due to its rapid development capabilities and ease of integration with other technologies. The backend is responsible for handling CRUD operations for tasks, exposed via RESTful APIs.
 
-By default, if a Spring Boot application contains Spring Data JPA, it will automatically attempt to create a database connection. However, this can cause issues if the database is not available when the application starts. I faced this issue while deploying with Docker Compose. To resolve it, I added health checks on the database and service health conditions on database dependency in the Docker Compose file. To continue without a database, Spring Boot can be configured to skip database initialisation with the following properties:
+By default, if a Spring Boot application contains Spring Data JPA, it will automatically attempt to create a database connection. However, this can cause issues if the database is not available when the application starts. I faced this issue while deploying with Docker Compose. To resolve it, I added health checks on the database and service health conditions on database dependency in the Docker Compose file. To continue without a database, Spring Boot can be configured to skip database initialization with the following properties:
 
 ```java
 spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
@@ -48,16 +46,18 @@ spring.jpa.hibernate.ddl-auto=none
 
 **Entity Design:** Created a Task entity representing the task data model, annotated with JPA for ORM (Object Relational Mapping).
 
+**Repository Layer:** Implemented Repository layer to interacts with the database and performs CRUD operations.
+
 **Service Layer:** Implemented a service layer to encapsulate business logic, promoting a clean separation of concerns.
 
 **Controller Layer:** Developed REST controllers to expose APIs for task management.
 
-**Profiles:** Utilised Spring Profiles to manage different configurations, ensuring smooth transitions between development and production environments.
+**Spring Profiles:** Utilized Spring Profiles to manage different configurations, ensuring smooth transitions between development and production environments.
 
 ## Database with MySQL
-Instead of setting up a local MySQL instance, Docker was used to create a MySQL container. This approach simplified the setup process. The application needs a database ```todo_list```, a user ```todo_user``` with password ```user@123```, and a ```task``` table to store the tasks in the MySQL database. To create these,
+Instead of setting up a local MySQL instance, Docker was used to create a MySQL container. This approach simplified the setup process. The application needs a database ```todo_list```, a user ```todo_user``` with password ```user@123```, and a ```task``` table to store the tasks in the MySQL database. Although Spring JPA can handle these tasks automatically, I have manually created them.
 
-ran mysql container,
+To create mysql container, I used,
 ```sh
 docker run --name local-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=<rootpassword> mysql
 ```
@@ -68,12 +68,12 @@ opened a terminal session to the MySQL container,
 docker exec -it local-mysql /bin/bash
 ```
 
-Logged in to MySQL with the root user,
+logged in to MySQL with the root user,
 ```sh
 mysql -u root -p
 ```
 
-Then executed the following SQL commands one by one. When a mysql container is started for the first time, it executes files with extensions ```.sh```, ```.sql``` and ```.sql.gz``` that are found in ```/docker-entrypoint-initdb.d```. directory. So, to automate the process, created a sql script with these commands.
+Then executed the following SQL commands one by one. Also, When a mysql container is started for the first time, it executes files with extensions ```.sh```, ```.sql``` and ```.sql.gz``` that are found in ```/docker-entrypoint-initdb.d```. directory. So, to automate the process, created a sql script with these commands while containerizing the database.
 
 ```sql
 # Create the database
@@ -111,9 +111,9 @@ Before deploying the application using Docker Compose, I manually tested it to e
 ./gradlew bootRun --args='--spring.profiles.active=local'
 ```
 
-**Frontend:** Configured the localhost backend URL as the base URL in the API service and ran the Flutter web project locally to interact with the backend.
+**Frontend:** Configured the localhost backend URL as the base URL in the API service and executed the Flutter web project locally to interact with the backend.
 
-This also depicts the order in which the containers for respective layer should be created.
+This also illustrates the sequence in which the containers for each respective layer should be created.
 
 ## Containerizing with Docker
 I have packaged the frontend and backend on my machine and then created the docker images with the built packages to simulate real-world scenarios. However, we could write a Dockerfile to build and package during image creation using multi-stage Docker builds. So, Before creating frontend and backend images or running the docker compose, package them using the following commands.
@@ -133,15 +133,15 @@ flutter build web
 
 ### Dockerfiles
 
-**Frontend:** Used Nginx to serve the Flutter website. The packaged website from the '/build/web' directory is copied to the /usr/share/nginx/html directory, which is the default HTML directory inside the Nginx container.
+**Frontend:** Used Nginx to serve the Flutter website. The packaged website from the ```/build/web``` directory is copied to the ```/usr/share/nginx/html``` directory, which is the default HTML directory inside the Nginx container.
 
-**Backend:** Created an environment variable to accept the database URL from Docker Compose and set the ***deploy Spring profile*** to use these environment variables in the code.
+**Backend:** Created an arguments and environment variable to accept the database URL from Docker Compose and used the deploy spring profile to use these environment variables in the code.
 
 **Database:** Copied the SQL script to the ```/docker-entrypoint-initdb.d``` directory inside the MySQL container to create the database prerequisites at container startup.
 
 
-### Docker Compose File:
-By default Compose sets up a single [network](https://docs.docker.com/reference/cli/docker/network/create/) for your app. Each container for a service joins the default network and is both reachable by other containers on that network, and discoverable by the service's name. I have leveraged this default network to configure the services for the database, backend, and frontend in docker compose, ensuring they communicate seamlessly.
+### Docker Compose:
+By default, Compose sets up a single [network](https://docs.docker.com/reference/cli/docker/network/create/) for your app. Each container from services joins the default network and is both reachable by other containers on that network, and discoverable by the service's name. I have leveraged this default network to configure the services for the database, backend, and frontend in docker compose, ensuring they communicate seamlessly.
 
 **Build and start all services:**
 ```sh
@@ -159,4 +159,4 @@ Once the containers are running, the application can be accessed via http://loca
 ## Conclusion
 Building a 3-tier To-Do List web application using Flutter, Spring Boot, and MySQL provided a comprehensive learning experience. The use of Docker and Docker Compose simplified the deployment process, making it scalable and consistent across different environments.
 
-This journey enhanced my understanding of backend technologies, cloud deployment, and containerization. For a detailed view of the project, feel free to explore the GitHub repository. Happy coding!
+This journey enhanced my understanding of backend technologies, cloud deployment, and containerization. For a detailed view of the project, feel free to explore the [GitHub repository](https://github.com/sabalessandip/to_do). Happy coding!
