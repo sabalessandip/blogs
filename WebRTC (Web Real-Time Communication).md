@@ -28,8 +28,8 @@ WebRTC relies on signaling servers to help clients exchange metadata necessary t
 
 Some key functions of signaling include:
 
-**Exchanging Session Information:** Information like SDP offers/answers is exchanged to describe the media configurations between the peers.
-**Network Setup:** Information about each peer's network environment is exchanged to facilitate network traversal, allowing peers to connect even behind firewalls or NATs (Network Address Translators).
+- **Exchanging Session Information:** Information like SDP offers/answers is exchanged to describe the media configurations between the peers.
+- **Network Setup:** Information about each peer's network environment is exchanged to facilitate network traversal, allowing peers to connect even behind firewalls or NATs (Network Address Translators).
 
 It’s important to note that WebRTC itself does not define a signaling mechanism, so developers can use WebSocket, SIP, XMPP, or other signaling protocols to implement the discovery and setup of peers.
 
@@ -39,12 +39,12 @@ SDP is a protocol that describes the multimedia communication session informatio
 
 Here’s how SDP works in the WebRTC context:
 
-SDP Offer/Answer Model: One peer (say, Client A) generates an SDP offer and sends it to the other peer (Client B). This offer includes information such as the media formats supported by Client A (e.g., video and audio codecs) and the network configurations. Client B responds with an SDP answer, either accepting or modifying the offer. This SDP exchange ensures that both peers agree on the media formats and network setup before starting the connection.
-SDP defines several parameters:
+- **SDP Offer/Answer Model:** One peer (say, Client A) generates an SDP offer and sends it to the other peer (Client B). This offer includes information such as the media formats supported by Client A (e.g., video and audio codecs) and the network configurations. Client B responds with an SDP answer, either accepting or modifying the offer. This SDP exchange ensures that both peers agree on the media formats and network setup before starting the connection.
 
-**Session Information:** Information like the session ID and expiration time.
-**Media Descriptions:** Details about the media types (audio/video) and codecs used (e.g., VP8 for video or Opus for audio).
-**Network Information:** IP addresses, ports, and other details to route the media streams.
+SDP defines several parameters:
+- **Session Information:** Information like the session ID and expiration time.
+- **Media Descriptions:** Details about the media types (audio/video) and codecs used (e.g., VP8 for video or Opus for audio).
+- **Network Information:** IP addresses, ports, and other details to route the media streams.
 
 ### 3. ICE (Interactive Connectivity Establishment)
 
@@ -54,8 +54,8 @@ ICE is a framework used by WebRTC to handle network traversal and establish a co
 
 ICE relies on two key components:
 
-**STUN (Session Traversal Utilities for NAT):** This protocol allows devices to determine their public IP addresses and the type of NAT they are behind. It helps clients share this public information with other peers, allowing them to establish a connection directly when possible.
-**TURN (Traversal Using Relays around NAT):** If a direct peer-to-peer connection is not possible (e.g., due to strict firewalls), TURN servers act as intermediaries, relaying the data between the peers.
+- **STUN (Session Traversal Utilities for NAT):** This protocol allows devices to determine their public IP addresses and the type of NAT they are behind. It helps clients share this public information with other peers, allowing them to establish a connection directly when possible.
+- **TURN (Traversal Using Relays around NAT):** If a direct peer-to-peer connection is not possible (e.g., due to strict firewalls), TURN servers act as intermediaries, relaying the data between the peers.
 Here’s how ICE works:
 
 Both peers start by gathering possible connection candidates. These can include the local IP address, public IP address (from the STUN server), or a relay address (from a TURN server).
