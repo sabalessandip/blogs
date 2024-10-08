@@ -4,7 +4,7 @@
 
 WebRTC is supported by most modern web browsers and can be integrated into native platforms like Android, iOS, Windows, macOS, and Linux, making it a versatile tool for cross-platform communication.
 
-### Key WebRTC APIs Summary
+## Key WebRTC APIs Summary
 
 WebRTC relies on three main APIs to enable real-time communication:
 
